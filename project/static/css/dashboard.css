@@ -1,0 +1,147 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+*{
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins" , sans-serif;
+  list-style: none;
+}
+body{
+    background-color: rgb(219, 219, 219);
+
+}
+.header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 60px;
+    box-shadow: 0 10px 15px  rgba(0, 0, 0, 0.844);
+    background-color:beige ;
+    z-index: 10;
+    position: sticky;
+    left:0;
+    top: 0;
+}
+#nav-bar{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    }
+#nav-bar ul{
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+#nav-bar li{
+    padding: 0 10px;
+    position: relative;
+    list-style: none;
+}
+#nav-bar a{
+    font-size: 20px;
+    font-weight: 600;
+    color:rgb(34, 4, 43);
+    text-decoration: none;
+}
+.logo h1{
+    font-size: 30px;
+    text-decoration: double;
+    color: rgb(20, 3, 53);
+    font-style: italic;
+}
+.nav {
+  padding-right: 5px;
+}
+.nav-item:not(:last-child) {
+    margin-right: 10px; /* Spacing between nav items, except the last one */
+  }
+/* highlight current page */
+
+#nav-bar a:hover,
+#nav-bar a.active{
+    color:rgba(23, 104, 225, 0.841);
+    transition: .5s ease;
+}
+.nav-item {
+  margin-right: 0.5px;
+  transition: background-color 0.5s ease, color 0.5s ease;
+
+}
+.nav-item:hover,
+.nav-item.active {
+  color: rgba(23, 104, 225, 0.841);
+}
+.active{
+  color:rgba(23, 104, 225, 0.841);
+  transition: .5s ease;
+}
+#section1{
+    background-color: pink;
+}
+* a{
+    text-decoration: none;
+}
+
+/* Client Dashboard*/
+.welcome-banner {
+    border-radius: 5px; 
+    padding: 20px; 
+    margin: 20px 0; 
+    text-align: center; 
+   
+  }
+  
+  /* Staff Dashboard */
+.container {
+    display: flex;
+}
+.add-services {
+    padding: 25px;
+    margin-right: 90px;
+}
+  form{
+    background-color: aliceblue;
+    width: 350px;
+    margin: 8vh auto 0 auto;
+    padding: 20px;
+    border-radius: 4px;
+    font-size: 17px;
+    
+  }
+  form h1{
+    padding: 5px;
+    text-align: center;
+    border-radius: 2px;
+  }
+  .input-control{
+    display: flex;
+    flex-direction: column;
+   }
+   .input-control input, textarea {
+    padding: 22px 15px 10px 0;
+    margin-top: 23px;
+    border: none;
+    border-bottom: 2px solid rgb(41, 57, 194);
+    background: transparent;
+    font-size: 15px;
+    
+  }
+  .add-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-top: 23px;
+    margin-bottom: 20px;
+  }
+  .add-btn button {
+    width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #fff;
+      background-color: rgb(41, 57, 194);
+      border: none;
+      border-radius: 70px;
+      cursor: pointer;
+  }
+  

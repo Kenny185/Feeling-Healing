@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %} Feeling And Healing {% endblock %}
+{% block content %}
+    <div class="second">
+        <div class="left">
+            <h1 class="title">
+                Feel & Heal
+            </h1>
+            <p class="sub_title">
+                We are glad you found your way here because Feeling and Healing <br> is all we need to feel at home.
+                <br> Come talk to us.
+            </p>
+            <a class="btn_us" align="center" id="last" href="{{url_for('main.contact')}}"> Talk To Us </a>
+        </div>
+        <div class="right">
+            <img src="/static/images/therapycarousel.jpg" alt="">
+        </div>
+    </div>
+
+{% endblock %}

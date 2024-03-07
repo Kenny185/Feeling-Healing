@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %} Client Dashboard {% endblock %}
+{% block head %}
+  <title> Client Dashboard </title>
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+{% endblock %}
+{% block content %}
+    <div class="welcome-banner">
+        <h2>Welcome back, {{ current_user.name }}!</h2>
+        <p>Here's what's happening with your account today.</p>
+    </div>
+    <div class="services_div">
+        <h2>My Services</h2>
+        <div class="services">
+            {% if services %}
+                <ul>
+                    {% for service in services %}
+                        <li>
+                            <h3>{{ service.name }}</h3>
+                            <p>{{ service.description }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>You have no active services at this time.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %} Contact Us {% endblock %}
+{% block content %}
+  <section>
+    <div class="container6">
+      <div class="content">
+        <div class="left-side">
+          <div class="address details">
+            <i class="fas fa-map-marker-alt"></i>
+            <div class="topic">Address</div>
+            <div class="text-one">Safe Space Center</div>
+            <div class="text-two">P.O. Box 43844-00100</div>
+            <div class="text-three"> Nairobi, Kenya </div>
+          </div>
+          <div class="phone details">
+            <i class="fas fa-phone-alt"></i>
+            <div class="topic">Phone</div>
+            <div class="text-one">+2547 0000 0000</div>
+          </div>
+          <div class="email details">
+            <i class="fas fa-envelope"></i>
+            <div class="topic">Email</div>
+            <div class="text-one">
+              <a href= "mailto: feeling.end.healing2@gmail.com">Click to send mail </a>
+            </div>
+          </div>
+        </div>
+        <div class="right-side">
+          <div class="topic-text">Send us a message</div>
+          <p>For more inquiry please contact us below</p>
+        <form action="#">
+          <div class="input-box">
+            <input id="name" type="text" placeholder="Enter your name">
+          </div>
+          <div class="input-box">
+            <input id="email" type="text" placeholder="Enter your email">
+          </div>
+          <div class="input-box message-box">
+
+          </div>
+          <div class="button">
+            <input type="button" value="Send Now" onclick="myFunction()">
+            <script>
+              function myFunction(){
+                alert("Thank you for contacting us");
+                document.getElementById("name").value= "";
+                document.getElementById("email").value= "";
+              }
+            </script>
+          </div>
+        </form>
+      </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}

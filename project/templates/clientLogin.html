@@ -1,0 +1,111 @@
+{% extends 'base.html' %}
+{% block title %} Client Login {% endblock %}
+{% block head %}
+  <link rel="stylesheet" href="/static/css/login.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@200;300;400&display=swap" rel="stylesheet">
+  <script
+  src="https://kit.fontawesome.com/7bdd845656.js"
+  crossorigin="anonymous"
+  ></script>
+  <script src="https://apis.google.com/js/platform.js" async defer>
+  </script>
+{% endblock %}
+{% block content %}
+  <section>
+    <div class="sign-btn">
+      <h1>
+          <img src="">
+      </h1>
+       <a href="{{url_for('auth.signup')}}"><button>Sign Up</button></a>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <div class="description">
+        <h2>Feeling and Healing Group</h2>
+        <p>
+          We are glad you found your way here because Feeling and
+          Healing is all we need to feel at home.
+        </p>
+       <div class="social">
+          <p>Follow Us in our Social Media Platform</p>
+          <div class="icons1">
+            <a href="https://www.facebook.com" target="_blank"><i class="fa fa-facebook-square"></i></a>
+            <a href="https://www.twitter.com" target="_blank"><i class="fa fa-twitter-square"></i></a>
+            <a href="https://www.instagram.com" target="_blank"><i class="fa fa-instagram"></i></a>
+            <a href="https://www.linkedin.com" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+          </div>
+        </div>
+      </div>
+      <div>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="notification is-danger">
+            {{ messages[0] }}
+          </div>
+        {% endif %}
+        {% endwith %}
+        <form method="POST" action="/ClientLogin">
+          <h1>Client Login</h1>
+          <div class="input-control">
+            <input
+              type="email"
+              name="email"
+              id="email"
+              placeholder="Email Address"
+              autofocus=""
+            />
+          </div>
+          <div class="input-control">
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="Password"
+            />
+          </div>
+          <div class="forgot"> 
+            <a href="Forgot.html"> Forgot Password?</a>
+          </div>
+          <div class="field">
+            <label class="checkbox">
+                <input type="checkbox" name="remember">
+                Remember me
+            </label>
+        </div>
+          <div class="login-btn">
+            <button>Login</button>
+          </div>
+
+          <div class="or">or Login with</div>
+          <div class="icons">
+            <a href="https://accounts.google.com/o/oauth2/v2/auth/oauthchooseaccount?response_type=code&client_id=989837567076" target="_blank"> <img src="Google.png" alt=""></a>
+            <a href="#"><img src="facebook.png" alt=""></a>
+
+          </div>
+
+          <div class="sign">
+            <p>Don't have an account?</p>
+            <p><a href="{{url_for('auth.signup')}}">Sign Up</a> Here.</p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="foot">
+    <div class="footer">
+      <p>Copyright &copy;2024 All rights Reserved</p>
+      <p>Made With <i class="fa fa-heart"></i> By The Infinity</p>
+      <p>Follow Us</p>
+      <div class="icons">
+        <a href="https://www.facebook.com" target="_blank"><i class="fa fa-facebook-square"></i></a>
+        <a href="https://www.twitter.com" target="_blank"><i class="fa fa-twitter-square"></i></a>
+        <a href="https://www.instagram.com" target="_blank"><i class="fa fa-instagram"></i></a>
+        <a href="https://www.linkedin.com" target="_blank"><i class="fa fa-linkedin-square"></i></a>
+      </div>
+    </div>
+  </section>
+{% endblock %}

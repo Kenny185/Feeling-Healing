@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %} Staff Dashboard {% endblock %}
+{% block head %}
+  <title> Staff Dashboard </title>
+  <link rel="stylesheet" href="/static/css/dashboard.css">
+{% endblock %}
+{% block content %}
+<section>
+    <div class="welcome-banner">
+        <h2>Welcome back, {{ current_user.name }}!</h2>
+        <p>This is a secure area for staff. 
+        </br> Here you can manage client information, services, and more.</p>
+    </div>
+</section>
+<section>
+    <div class="container">
+        <div class="add-services">
+            <form action="{{ url_for('auth.add_service') }}" method="post">
+                <h1> Services </h1>
+                <div class="input-control">
+                    <input type="text" name="name" placeholder="Service Name" required>
+                </div>            
+                <div class="input-control">
+                    <textarea name="description" placeholder="Service Description" required></textarea>
+                </div>
+                <div class="add-btn">
+                    <button type="submit"> Add Service</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>         
+{% endblock %}
