@@ -3,6 +3,14 @@
 {% block head %}
   <title> Staff Dashboard </title>
   <link rel="stylesheet" href="/static/css/dashboard.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script>
+    window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+    }, 5000);
+    </script>    
 {% endblock %}
 {% block content %}
 <section>
@@ -16,6 +24,15 @@
     <div class="container">
         <div class="add-services">
             <form action="{{ url_for('auth.add_service') }}" method="post">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert alert-{{ category }}">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
                 <h1> Services </h1>
                 <div class="input-control">
                     <input type="text" name="name" placeholder="Service Name" required>

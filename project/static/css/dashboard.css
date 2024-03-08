@@ -113,6 +113,22 @@ body{
     text-align: center;
     border-radius: 2px;
   }
+  .alert {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+  }
+  .alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+  }
+  .alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+  }
   .input-control{
     display: flex;
     flex-direction: column;
@@ -135,13 +151,13 @@ body{
   }
   .add-btn button {
     width: 100%;
-      padding: 10px;
-      font-size: 14px;
-      font-weight: bold;
-      color: #fff;
-      background-color: rgb(41, 57, 194);
-      border: none;
-      border-radius: 70px;
-      cursor: pointer;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: rgb(41, 57, 194);
+    border: none;
+    border-radius: 70px;
+    cursor: pointer;
   }
   

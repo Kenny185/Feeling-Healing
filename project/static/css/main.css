@@ -329,6 +329,18 @@ footer{
     color: #6c757d;
     text-align: center;
 }
+.card button {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: rgb(41, 57, 194);
+  border: none;
+  margin-top: 20px;
+  border-radius: 70px;
+  cursor: pointer;
+}
 .card:hover h2{
     font-weight: 600;
     color: #f2f2f2;

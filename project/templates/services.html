@@ -7,9 +7,20 @@
             Just a phone call away! Connect with our specialised councellors
         </h3>
         <div class="content-box">
+            {% for service in services %}
+                <div class="card">
+                    <h2><strong>{{ service.name }}</strong></h2>
+                    <p>{{ service.description }}</p>
+                    <form action="{{ url_for('auth.subscribe_to_service', service_id=service.id) }}" method="post">
+                        <button type="submit"> Subscribe </button>
+                    </form>
+                </div>
+            {% endfor %}
+            {# 
+            {% comment %} 
             <div class="card">
                 <i class="las la-user-alt"></i>
-                <h2><strong>Individuals Counselling</strong></h2>
+                <h2><strong>Individual Counselling</strong></h2>
                 <h2> Have a one-on-one session with our specialists. Feel at home here as you have an interactive session. 
                     Here at Feeling and Healing, we value you.</h2>
             </div>
@@ -28,7 +39,9 @@
                 <i class="las la-microphone-alt"></i>
                 <h2><strong>Share your story</strong></h2>
                 <h2> Would you love to share your story? Get a space where you can do so. At Feeling and healing we are about inspiration></h2>
-            </div>
+            </div> 
+            {% endcomment %}
+            #}
         </div>
     </div>
 {% endblock %}

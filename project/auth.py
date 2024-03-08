@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash
+from flask import Blueprint, render_template, redirect, url_for, request, flash, abort
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import User, Service
+from .models import User, Service, Subscription
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
 
@@ -91,16 +91,33 @@ def client_login_post():
 @login_required
 def add_service():
     # Check if current user is a staff and authorized to add services
-    if current_user.is_authenticated and current_user.role == 'staff':
+    if current_user.role == 'staff':
         name = request.form.get('name')
         description = request.form.get('description')
-        new_service = Service(name=name, description=description)
+        new_service = Service(name=name, description=description, is_active=True)
         db.session.add(new_service)
         db.session.commit()
-        flash('Service added successfully!', 'success')
+        flash('New service added successfully!', 'success')
     else:
-        flash('Unauthorized access.', 'danger')
+        flash('You do not have permission to perform this action.', 'danger')
     return redirect(url_for('main.staffDashboard'))
+
+@auth.route('/subscribe_to_service/<int:service_id>', methods=['POST'])
+@login_required
+def subscribe_to_service(service_id):
+    if current_user.role != 'client':
+        abort(403)  # Ensures only clients can subscribe to services
+    service = Service.query.get_or_404(service_id)
+    # Check if the user is already subscribed to avoid duplicates
+    existing_subscription = Subscription.query.filter_by(user_id=current_user.id, service_id=service_id).first()
+    if not existing_subscription:
+        new_subscription = Subscription(user_id=current_user.id, service_id=service_id)
+        db.session.add(new_subscription)
+        db.session.commit()
+        flash('You have successfully subscribed to the service.', 'success')
+    else:
+        flash('You are already subscribed to this service.', 'info')
+    return redirect(url_for('main.clientDashboard'))
 
 @auth.route('/logout')
 @login_required
