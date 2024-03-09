@@ -90,7 +90,55 @@ body{
     text-align: center; 
    
   }
-  
+  .services-div {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px
+  }
+  .services {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width:800px;
+  }
+  .services-card {
+    min-height: 220px;
+    width: 320px;
+    padding: 20px;
+    border-radius: 5px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    margin: 10px 4px;
+    box-shadow: 0px 15px 30px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+  }
+  .services-card:hover {
+    transform: scale(1.05);
+    background: linear-gradient(45deg,
+                                #FFC0CB 0%,
+                                #7CB9E8 100%,
+                                rgb(255, 192, 203) 100%);
+    background-size: cover;
+}
+.services-card h2{
+  font-size: 1.5em;
+  margin-bottom: 20px;
+  font-weight: 600;
+  text-align: center;
+  width: 100%;
+}
+.services-card p{
+  color: #6c757d;
+  text-align: center;
+  line-height: 1.5; 
+}
+.services-card:hover h2{
+  font-weight: 600;
+  color: #f2f2f2;
+}
   /* Staff Dashboard */
 .container {
     display: flex;

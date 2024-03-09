@@ -9,18 +9,17 @@
         <h2>Welcome back, {{ current_user.name }}!</h2>
         <p>Here's what's happening with your account today.</p>
     </div>
-    <div class="services_div">
+    <div class="services-div">
         <h2>My Services</h2>
         <div class="services">
             {% if services %}
-                <ul>
-                    {% for service in services %}
-                        <li>
-                            <h3>{{ service.name }}</h3>
-                            <p>{{ service.description }}</p>
-                        </li>
-                    {% endfor %}
-                </ul>
+                {% for service in services %}
+                    <div class="services-card">
+                        <h2><strong>{{ service.name }}</strong></h2>
+                        <p>{{ service.description }}</p>
+                        
+                    </div>
+                {% endfor %}
             {% else %}
                 <p>You have no active services at this time.</p>
             {% endif %}

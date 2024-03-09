@@ -9,6 +9,28 @@ main = Blueprint('main', __name__)
 def index():
     return render_template('main.html')
 
+@main.route('/home')
+def home():
+    return render_template('main.html', active_page='home')
+
+@main.route('/about')
+def about():
+    return render_template('about.html', active_page='about')
+
+@main.route('/contact')
+def contact():
+    return render_template('contact.html', active_page='contact')
+
+@main.route('/profile')
+@login_required
+def profile():
+    return render_template('services.html', name=current_user.name, active_page='services')
+
+@main.route('/services')
+def services():
+    all_services = Service.query.all()
+    return render_template('services.html', active_page='services', services=all_services)
+
 @main.route('/ClientDashboard')
 @login_required
 def clientDashboard():
@@ -25,28 +47,7 @@ def staffDashboard():
         abort(403)  # Forbids access if the current user is not staff
     return render_template('staffDashboard.html', name=current_user.name, active_page='staffDashboard')
 
-@main.route('/profile')
-@login_required
-def profile():
-    return render_template('services.html', name=current_user.name, active_page='services')
 
-
-@main.route('/about')
-def about():
-    return render_template('about.html', active_page='about')
-
-@main.route('/services')
-def services():
-    all_services = Service.query.all()
-    return render_template('services.html', active_page='services', services=all_services)
-
-@main.route('/home')
-def home():
-    return render_template('main.html', active_page='home')
-
-@main.route('/contact')
-def contact():
-    return render_template('contact.html', active_page='contact')
 
 
 
