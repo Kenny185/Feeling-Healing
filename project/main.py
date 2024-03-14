@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, abort
-from flask_login import login_required, current_user 
+from flask_login import login_required, current_user
+
+from project.services import create_available_time_slots 
 from . import db
 from .models import Service, User, Subscription
 
@@ -37,8 +39,10 @@ def clientDashboard():
     if current_user.role != 'client':
         abort(403)  # Forbids access if the current user is not a client
     subscribed_services = [subscription.service for subscription in current_user.subscriptions]
+    available_time_slots = create_available_time_slots()
     return render_template('clientDashboard.html', name=current_user.name, 
-                           active_page='clientDashboard', services=subscribed_services)
+                           active_page='clientDashboard', services=subscribed_services,
+                           available_time_slots=available_time_slots)
 
 @main.route('/StaffDashboard')
 @login_required

@@ -86,6 +86,14 @@
     border: 1px solid #888;
     width: 80%;
 }
+.time-slot {
+  display: flex;
+  flex-direction: column;
+
+}
+#time_slot option {
+  color: black; /* Set the text color to black */
+}
 
 .close {
     color: #aaa;

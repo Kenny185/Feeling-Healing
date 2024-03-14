@@ -17,7 +17,7 @@
                     <h2><strong>{{ service.name }}</strong></h2>
                     <p>{{ service.description }}</p>
                     {% if current_user.role == 'client' %}
-                    <form action="{{ url_for('auth.subscribe_to_service', service_id=service.id) }}" method="post">
+                    <form action="{{ url_for('services.subscribe_to_service', service_id=service.id) }}" method="post">
                         <button type="submit"> Subscribe </button>
                     </form>
                     {% endif %}

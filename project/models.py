@@ -39,3 +39,7 @@ class AvailableTimeSlot(db.Model):
     time_slot = db.Column(db.DateTime, nullable=False)
 
     service = db.relationship('Service', backref='available_time_slots')
+    
+    @staticmethod
+    def available_time_slots(service_id):
+        return AvailableTimeSlot.query.filter_by(service_id=service_id).all()

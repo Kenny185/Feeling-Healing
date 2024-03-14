@@ -24,7 +24,7 @@
 <section>
     <div class="container">
         <div class="add-services">
-            <form action="{{ url_for('auth.add_service') }}" method="post">
+            <form action="{{ url_for('services.add_service') }}" method="post">
                 {% with messages = get_flashed_messages(with_categories=true) %}
                     {% if messages %}
                         {% for category, message in messages %}
