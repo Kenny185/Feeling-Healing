@@ -6,12 +6,16 @@
   <link rel="stylesheet" href="/static/css/dashboard/client.css">
   <script>
     function openForm(formId) {
-        document.getElementById(formId).style.display = "block";
+        var modal = document.getElementById(formId);
+        modal.style.display = "block";
+        document.body.style.overflow = "hidden"; // Prevent scrolling on the body
     }
     
     function closeForm(formId) {
-        document.getElementById(formId).style.display = "none";
-    }
+        var modal = document.getElementById(formId);
+        modal.style.display = "none";
+        document.body.style.overflow = "hidden"; // Re-enable scrolling on the body
+    }    
     function getClientTimezoneOffset() {
         var timezoneOffset = new Date().getTimezoneOffset();
         document.getElementById('timezone_offset').value = timezoneOffset;
