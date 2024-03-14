@@ -1,10 +1,9 @@
-from flask import Blueprint, render_template, redirect, url_for, request, flash, abort
+from flask import Blueprint, render_template, redirect, session, url_for, request, flash, abort
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import User, Service, Subscription, Booking, AvailableTimeSlot
+from .models import User
 from . import db
-from flask_login import login_user, login_required, logout_user, current_user
-from datetime import datetime, timedelta
-import pytz
+from flask_login import login_user, login_required, logout_user
+
 auth = Blueprint('auth', __name__)
 
 @auth.route('/login')
@@ -62,6 +61,7 @@ def staff_login_post():
     # if the user doesn't exist or password is wrong, reload the page
     # if the above check passes, then we know the user has the right credentials
     login_user(user, remember=remember)
+    session['user_id'] = user.id 
     return redirect(url_for('main.staffDashboard'))
 
 @auth.route('/ClientLogin')
@@ -86,10 +86,12 @@ def client_login_post():
     # if the user doesn't exist or password is wrong, reload the page
     # if the above check passes, then we know the user has the right credentials
     login_user(user, remember=remember)
+    session['user_id'] = user.id 
     return redirect(url_for('main.clientDashboard'))
 
 @auth.route('/logout')
 @login_required
 def logout():
     logout_user()
+    session.pop('user_id', None)
     return redirect(url_for('main.index'))

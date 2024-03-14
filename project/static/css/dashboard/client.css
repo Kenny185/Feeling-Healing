@@ -12,10 +12,12 @@
   }
   .services {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     flex-wrap: wrap;
     width:800px;
     flex-direction: row;
+    margin: 0 auto;
+    width: 100%;
   }
  
   .services-card {
@@ -70,22 +72,17 @@
 }
 .booking-form-modal {
   display: none;
-  position: fixed;
   z-index: 1;
-  left: 0;
-  top: 0;
-  width: 100%;
-  max-width: 600px;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 10px;
+  position: fixed;
+  width: 300px;
+  border-radius: 15px;
   box-shadow: 0px 0px 10px;
-  background-color: rgba(0,0,0,0.4);
 }
 .booking-form-content {
-    background-color: #fefefe;
+    background-color: pink;
     margin: 15% auto;
     padding: 20px;
+    border-radius: 15px;
     border: 1px solid #888;
     width: 80%;
 }
@@ -109,4 +106,23 @@
     color: black;
     text-decoration: none;
     cursor: pointer;
+}
+.alert {
+  padding: 10px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  position: absolute;
+  z-index: 10;
+  top: 100px;
+  right: 18px;
+}
+.alert-success {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+.alert-danger {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
 }

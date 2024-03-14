@@ -31,6 +31,15 @@
         <h2>My Services</h2>
         <div class="services">
             {% if services %}
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div id="alert" class="alert alert-{{ category }}">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
                 {% for service in services %}
                     <div class="services-card">
                         <h2><strong>{{ service.name }}</strong></h2>
@@ -46,7 +55,7 @@
                                 <span class="close" onclick="closeForm('booking-form-{{ service.id }}')">&times;</span>
                                 <div class="dropdown-container">
                                     <form action="{{ url_for('services.book_individual_session', service_id=service.id) }}" method="POST">
-                                        <div class="time-slot">
+                                                                                <div class="time-slot">
                                             <label for="time_slot"> Choose a time slot: </label>
                                             <select name="time_slot" id="time_slot">                                             
                                              <!-- Populate with available time slots -->
@@ -55,7 +64,7 @@
                                                 {% endfor %}
                                             </select>
                                         </div>
-                                        <button type="submit">Book Now</button>
+                                            <button type="submit"> Book now </button>
                                     </form>
                                 </div>
                             </div>
@@ -68,4 +77,12 @@
             {% endif %}
         </div>
     </div>
+    <script>
+        setTimeout(function() {
+            var alertDiv = document.getElementById('alert');
+            if (alertDiv) {
+                alertDiv.remove();
+            }
+        }, 5000); 
+    </script>
 {% endblock %}

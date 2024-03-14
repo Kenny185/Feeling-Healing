@@ -6,7 +6,7 @@ from flask_migrate import Migrate
 
 db = SQLAlchemy()
 migrate = Migrate()
-
+login_manager = LoginManager()
 
 def create_app():
     app = Flask(__name__)
@@ -16,27 +16,13 @@ def create_app():
 
     db.init_app(app)
     migrate.init_app(app, db)
+    login_manager.login_view = 'auth.login'
+    login_manager.init_app(app)
     
     from project import models
     from .models import User
     
-    login_manager = LoginManager()
-    login_manager.login_view = 'auth.login'
-    login_manager.init_app(app)
     
-    # def initialize_database():
-    #     db.create_all()
-        
-    #     if not models.User.query.first():
-    #         admin_user = models.User(name='Admin', email="kenedywambuah@gmail.com", password="Kennedy@123", role="staff")
-    #         db.session.add(admin_user)
-            
-    #     if not models.Service.query.first():
-    #         service_ex = models.Service(name="Yoga", description="Yoga Classes...")
-    #         db.session.add(service_ex)
-            
-    #     db.session.commit()
-
     @login_manager.user_loader
     def load_user(user_id):
         # since the user_id is just the primary key of our user table, use it in the query for the user
@@ -54,5 +40,4 @@ def create_app():
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 
-    return app 
-# initialize_database()
+    return app

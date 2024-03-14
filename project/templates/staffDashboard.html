@@ -4,14 +4,7 @@
     {{super()}}
   <title> Staff Dashboard </title>
   <link rel="stylesheet" href="/static/css/dashboard/staff.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script>
-    window.setTimeout(function() {
-        $(".alert").fadeTo(500, 0).slideUp(500, function(){
-            $(this).remove(); 
-        });
-    }, 5000);
-    </script>    
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
 {% endblock %}
 {% block content %}
 <section>
@@ -47,5 +40,12 @@
             </form>
         </div>
     </div>
-</section>         
+</section>
+<script>
+    window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+    }, 5000);
+    </script>         
 {% endblock %}

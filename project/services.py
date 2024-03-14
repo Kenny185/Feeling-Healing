@@ -9,13 +9,18 @@ services = Blueprint('services', __name__)
 
 def create_available_time_slots():
     available_time_slots = []
-    start_time = datetime.now().replace(hour=9, minute=0, second=0, microsecond=0)
+    current_time = datetime.now()
+    start_time = current_time.replace(hour=9, minute=0, second=0, microsecond=0)
     for day in range(7):
-        for hour in range(9, 17, 2):  # Assuming 9 AM to 5 PM schedule
-            time_slot = start_time + timedelta(days=day, hours=hour-start_time.hour)
-            available_time_slots.append(time_slot)
-            # Assume 'time_slot' is a string like "2023-07-21 14:00"
+        for hour in range(9, 17, 2):
+            time_slot = start_time + timedelta(days=day, hours=hour - start_time.hour)
+            if time_slot > current_time:
+                available_time_slots.append(time_slot)
+            else:
+                continue
     return available_time_slots
+
+       
 
 @services.route('/add_service', methods=['POST'])
 @login_required
@@ -52,25 +57,28 @@ def subscribe_to_service(service_id):
 @services.route('/book_individual_session/<int:service_id>', methods=['POST'])
 @login_required
 def book_individual_session(service_id):
-    available_time_slots = create_available_time_slots()
+    available_time_slots = AvailableTimeSlot.query.filter_by(service_id=service_id).all()
     utc = pytz.utc
     
-    # avail_time_slots = AvailableTimeSlot.available_time_slots(service_id)
-    # for slot in avail_time_slots:
-    #     if not slot:  # Check if the time slot is not already added
-    #         # available_slot = AvailableTimeSlot.available_time_slots(service_id=service.id, time_slot=slot)
-    #         db.session.add(slot)
-    #         db.session.commit()
-    # timezone_offset = int(request.form['timezone_offset'])
+     # timezone_offset = int(request.form['timezone_offset'])
     chosen_time_str = request.form['time_slot']
-    chosen_time = datetime.strptime(chosen_time_str, '%Y-%m-%d %H:%M')
+    chosen_time = datetime.strptime(chosen_time_str, '%Y-%m-%d %H:%M:%S')
     # chosen_time += timedelta(minutes=timezone_offset)
     # utc_time = chosen_time.astimezone(utc)
+    if chosen_time not in [slot.time_slot for slot in available_time_slots]:
+        flash('Selected time slot is not available.', 'danger')
+        return redirect(url_for('main.clientDashboard'))
+    
     conflicting_bookings = Booking.query.filter_by(service_id=service_id, time_slot=chosen_time).first()
     if conflicting_bookings:
         flash('That slot is already booked!', 'danger')
+        return redirect(url_for('main.clientDashboard'))
+    
     new_booking = Booking(user_id=current_user.id, service_id=service_id, time_slot=chosen_time)
     db.session.add(new_booking)
     db.session.commit()
+    
+    available_time_slots = [slot for slot in available_time_slots if slot.time_slot != chosen_time]
+        
     flash('Booking successful!', 'success')
     return redirect(url_for('main.clientDashboard', available_time_slots=available_time_slots ))
