@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% block title %} About us {% endblock %}
+{% block head %}
+    {{super()}}
+  <title> About Us </title>
+  <link rel="stylesheet" href="/static/css/about.css">   
+{% endblock %}
 {% block content %}
     <section class="background firstsection">
         <div class="box-main">

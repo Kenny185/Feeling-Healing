@@ -1,5 +1,10 @@
 {% extends 'base.html' %}
 {% block title %} Services {% endblock %}
+{% block head %}
+    {{super()}}
+  <title> About Us </title>
+  <link rel="stylesheet" href="/static/css/services.css">   
+{% endblock %}
 {% block content %}
     <div class="wrapper" id="section3">
         <h1> Our Services</h1>
@@ -11,9 +16,11 @@
                 <div class="card">
                     <h2><strong>{{ service.name }}</strong></h2>
                     <p>{{ service.description }}</p>
+                    {% if current_user.role == 'client' %}
                     <form action="{{ url_for('auth.subscribe_to_service', service_id=service.id) }}" method="post">
                         <button type="submit"> Subscribe </button>
                     </form>
+                    {% endif %}
                 </div>
             {% endfor %}
             {# 

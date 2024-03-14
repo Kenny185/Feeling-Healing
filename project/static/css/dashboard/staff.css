@@ -1,0 +1,75 @@
+.welcome-banner {
+  border-radius: 5px; 
+  padding: 20px; 
+  margin: 20px 0; 
+  text-align: center; 
+ 
+}
+.container {
+  display: flex;
+}
+.add-services {
+  padding: 25px;
+  margin-right: 90px;
+}
+form{
+  background-color: aliceblue;
+  width: 350px;
+  margin: 8vh auto 0 auto;
+  padding: 20px;
+  border-radius: 4px;
+  font-size: 17px;
+  
+}
+form h1{
+  padding: 5px;
+  text-align: center;
+  border-radius: 2px;
+}
+.alert {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+.alert-success {
+  color: #3c763d;
+  background-color: #dff0d8;
+  border-color: #d6e9c6;
+}
+.alert-danger {
+  color: #a94442;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+}
+.input-control{
+  display: flex;
+  flex-direction: column;
+ }
+ .input-control input, textarea {
+  padding: 22px 15px 10px 0;
+  margin-top: 23px;
+  border: none;
+  border-bottom: 2px solid rgb(41, 57, 194);
+  background: transparent;
+  font-size: 15px;
+  
+}
+.add-btn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 23px;
+  margin-bottom: 20px;
+}
+.add-btn button {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: rgb(41, 57, 194);
+  border: none;
+  border-radius: 70px;
+  cursor: pointer;
+}

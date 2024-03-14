@@ -1,9 +1,10 @@
 from flask import Blueprint, render_template, redirect, url_for, request, flash, abort
 from werkzeug.security import generate_password_hash, check_password_hash
-from .models import User, Service, Subscription
+from .models import User, Service, Subscription, Booking, AvailableTimeSlot
 from . import db
 from flask_login import login_user, login_required, logout_user, current_user
-
+from datetime import datetime, timedelta
+import pytz
 auth = Blueprint('auth', __name__)
 
 @auth.route('/login')
@@ -118,6 +119,37 @@ def subscribe_to_service(service_id):
     else:
         flash('You are already subscribed to this service.', 'info')
     return redirect(url_for('main.clientDashboard'))
+
+@auth.route('/book_individual_session/<int:service_id>', methods=['POST'])
+@login_required
+def book_individual_session(service_id):
+    utc = pytz.utc
+    available_time_slots = []
+    start_time = datetime.now().replace(hour=9, minute=0, second=0, microsecond=0)
+    for day in range(7):
+        for hour in range(9, 17, 2):  # Assuming 9 AM to 5 PM schedule
+            time_slot = start_time + timedelta(days=day, hours=hour-start_time.hour)
+            available_time_slots.append(time_slot.strptime('%Y-%m-%d %H:%M'))
+            # Assume 'time_slot' is a string like "2023-07-21 14:00"
+    service = Service.query.get(service_id)
+    for slot in available_time_slots:
+         if not available_slot:  # Check if the time slot is not already added
+            available_slot = AvailableTimeSlot(service_id=service.id, time_slot=slot)
+            db.session.add(available_slot)
+    db.session.commit()
+    timezone_offset = int(request.form['timezone_offset'])
+    chosen_time = request.form['time_slot']
+    chosen_time = datetime.strptime(chosen_time, '%Y-%m-%d %H:%M')
+    chosen_time += timedelta(minutes=timezone_offset)
+    utc_time = chosen_time.astimezone(utc)
+    conflicting_bookings = Booking.query.filter_by(service_id=service_id, time_slot=utc_time).first()
+    if conflicting_bookings:
+        flash('That slot is already booked!', 'danger')
+    new_booking = Booking(user_id=current_user.id, service_id=service_id, time_slot=utc_time)
+    db.session.add(new_booking)
+    db.session.commit()
+    flash('Booking successful!', 'success')
+    return redirect(url_for('main.clientDashboard', available_time_slots=available_time_slots ))
 
 @auth.route('/logout')
 @login_required

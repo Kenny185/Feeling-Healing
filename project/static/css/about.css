@@ -1,0 +1,176 @@
+
+/* =============About Section============== */
+  
+.background {
+    background-image: url(/static/images/dd1.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    }
+    
+  .firstsection {
+    height: 100vh;
+    }
+  .box-main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    max-width: 50%;
+    margin: auto;
+    height: 80%;
+    }
+  .firstHalf {
+    width: 75%;
+    display: flex;
+    flex-direction: column; 
+    justify-content: center
+    }
+  .firstHalf img {
+    display: flex;
+    border-radius: 9050px;
+    }
+  .text-big {
+    font-family: 'Piazzolla', serif;
+    font-weight: bold;
+    font-size: 41px;
+    text-align: center;
+    }
+  .text-small {
+    font-family: 'Sansita Swashed', cursive;
+    font-size: 18px;
+    text-align: center;
+    color: rgb(166, 184, 195);
+    }
+  .center {
+    text-align: center; 
+    }
+  .text-footer {
+    text-align: center;
+    padding: 10px 0;
+    font-family: 'Ubuntu', sans-serif;
+    display: flex;
+    justify-content: center;
+    }
+  
+  /* =============Team Section============== */
+  .team__container{
+    background-color: pink;
+  }
+  .team__headline{
+    text-align: center;
+    padding: 20px;
+    margin: 5px;
+  }
+  .team__headline h3{
+    font-size: 40px;
+    font-family: sans-serif;
+    font-weight: bold;
+  }
+  .team__headline p{
+    font-weight: 400;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  }
+  .main__team{
+    width: 100%;
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: pink;
+  }
+  .profile__card{
+    position: relative;
+    font-family: sans-serif;
+    width: 220px;
+    height: 220px;
+    background: #fff;
+    padding: 30px;
+    border-radius: 50%;
+    box-shadow: 0 0 22px #3336;
+    transition: .6s;
+    margin: 0 25px;
+  }
+  .profile__card:hover{
+    border-radius: 10px;
+    height: 260px;
+  }
+  .profile__card .img{
+    position: relative;
+    width: 100%;
+    height: 100px;
+    transition: .6s;
+    z-index: 99;
+  }
+  .img img{
+    width: 100%;
+    border-radius: 50%;
+    box-shadow: 0 0 22px #3336;
+    transition: .6s;
+  }
+  .profile__card:hover .img{
+    transform: translateY(-60px);
+  }
+  .profile__card:hover img{
+    border-radius: 10px;
+  }
+  .img__caption{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 10px;
+    text-align: center;
+    /*transform: translateY(-80px);*/
+    opacity: 0;
+    transition: .6s;
+  }
+  .profile__card:hover .img__caption{
+    opacity: 1;
+  }
+  .img__caption h3{
+    font-size: 21px;
+    font-family: sans-serif;
+  }
+  .img__caption p{
+    font-weight: bold;
+    font-size: 15px;
+    color: #0c52a1;
+    font-family: sans-serif;
+    margin: 2px 0 9px 0;
+  }
+  .img__caption .social__links a{
+    color: #333;
+    margin-right: 15px;
+    font-size: 21px;
+    transition: .6s;
+  }
+  .img__caption .social__links a:hover{
+    color: blue;
+    margin-right: 15px;
+    font-size: 21px;
+    transition: .6s;
+  }
+  
+  .social__links a{
+    color: #0c52a1;
+  }
+  @media screen and (max-width:600px) and (max-width: 900px) {
+    .team__container{
+        flex-wrap: wrap;
+    }
+    .main__team{
+        flex-wrap: wrap;
+        height: unset;
+        padding: 20px;
+        align-items: unset;
+    }
+    .profile__card{
+        position: relative;
+        
+    }
+    .img__caption .social__links a{
+        display: inline;
+    }
+  }
+  
+  

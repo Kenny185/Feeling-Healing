@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% block title %} Staff Dashboard {% endblock %}
 {% block head %}
+    {{super()}}
   <title> Staff Dashboard </title>
-  <link rel="stylesheet" href="/static/css/dashboard.css">
+  <link rel="stylesheet" href="/static/css/dashboard/staff.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script>
     window.setTimeout(function() {
@@ -15,7 +16,7 @@
 {% block content %}
 <section>
     <div class="welcome-banner">
-        <h2>Welcome back, {{ current_user.name }}!</h2>
+        <h2> Welcome back, {{ current_user.name }}!</h2>
         <p>This is a secure area for staff. 
         </br> Here you can manage client information, services, and more.</p>
     </div>

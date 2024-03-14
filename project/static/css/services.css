@@ -1,0 +1,135 @@
+.wrapper{
+    background-image: url("https://media.istockphoto.com/id/1326452693/photo/couple-talking-at-session-with-male-therapist.jpg?b=1&s=170667a&w=0&k=20&c=GGpP-XbMbc3OIkbKaBeJBTxIJA3nWYQiTZsoAthR7Jw=");
+    background-size: cover;
+    background-attachment: fixed;     
+    font-family: 'raleway';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+}
+.wrapper h1{
+    font-size: 3em;
+    margin: 25px 0;
+    text-align: center;
+    font-weight: 600;
+    color: rgb(255,0,82);
+}
+.container h3{
+  font-size: 50px;
+  color: white;
+  font-weight: 800;
+}
+
+
+.container {
+    font-size: 40px;
+    color: rgb(187, 115, 33);
+    font-weight: 800;
+  background-image: linear-gradient(
+    -225deg,
+    #231557 0%,
+    #44107a 29%,
+    #ff1361 67%,
+    #fff800 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: #fff;
+  background-clip: text;
+
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 15s linear infinite;
+  display: inline-block;
+}
+
+@keyframes textclip {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.content-box{
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width:800px;
+}
+.card{
+    min-height: 220px;
+    width: 320px;
+    padding: 30px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background: #fff;
+    margin: 10px 4px;
+    box-shadow: 0px 15px 30px rgba(0,0,0,0.2);
+    transition: transform 0.3s;
+}
+.card:hover{
+  transform: scale(1.05);  
+  background: linear-gradient(45deg,
+                                #FFC0CB 0%,
+                                #7CB9E8 100%,
+                                rgb(255, 192, 203) 100%);
+    background-size: cover;
+}
+.card i{
+    margin: 20px;
+    color: #7CB9E8 0%,;
+    font-size: 64px;
+}
+.card h2{
+    margin-bottom: 12px;
+    font-weight: 400;
+    text-align: center;
+}
+.card p{
+    color: #6c757d;
+    text-align: center;
+}
+.card button {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+  background-color: rgb(41, 57, 194);
+  border: none;
+  margin-top: 20px;
+  border-radius: 70px;
+  cursor: pointer;
+}
+.card:hover h2{
+    font-weight: 600;
+    color: #f2f2f2;
+}
+.card :hover i,
+.card:hover p{
+    color: #fff;
+}
+
+@media(max-width: 991px)
+{
+    .wrapper{
+        padding: 25px;
+    }
+    .wrapper h1{
+        font-size: 2.5em;
+        font-weight: 600;
+    }
+    .content-box{
+        flex-direction: column;
+        width: 100%;
+    }
+    .card{
+        min-width: 300px;
+        margin: 10px auto;
+    }
+}
