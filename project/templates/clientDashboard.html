@@ -55,7 +55,7 @@
                                 <span class="close" onclick="closeForm('booking-form-{{ service.id }}')">&times;</span>
                                 <div class="dropdown-container">
                                     <form action="{{ url_for('services.book_individual_session', service_id=service.id) }}" method="POST">
-                                                                                <div class="time-slot">
+                                        <div class="time-slot">
                                             <label for="time_slot"> Choose a time slot: </label>
                                             <select name="time_slot" id="time_slot">                                             
                                              <!-- Populate with available time slots -->

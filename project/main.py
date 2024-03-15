@@ -49,7 +49,9 @@ def clientDashboard():
 def staffDashboard():
     if current_user.role != 'staff':
         abort(403)  # Forbids access if the current user is not staff
-    return render_template('staffDashboard.html', name=current_user.name, active_page='staffDashboard')
+    all_services = Service.query.all()
+    return render_template('staffDashboard.html', name=current_user.name, 
+                           active_page='staffDashboard', services=all_services)
 
 
 

@@ -7,14 +7,12 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
 {% endblock %}
 {% block content %}
-<section>
+<section class="main-section">
     <div class="welcome-banner">
         <h2> Welcome back, {{ current_user.name }}!</h2>
         <p>This is a secure area for staff. 
         </br> Here you can manage client information, services, and more.</p>
     </div>
-</section>
-<section>
     <div class="container">
         <div class="add-services">
             <form action="{{ url_for('services.add_service') }}" method="post">
@@ -27,7 +25,7 @@
                         {% endfor %}
                     {% endif %}
                 {% endwith %}
-                <h1> Services </h1>
+                <h1 class="service-h"> Services </h1>
                 <div class="input-control">
                     <input type="text" name="name" placeholder="Service Name" required>
                 </div>            
@@ -39,7 +37,30 @@
                 </div>
             </form>
         </div>
+        <div class="manage-section">
+            <h1 class="manage-h"> Manage Services </h1>
+            <div class="manage-services">
+            {% for service in services %}
+                <div class="card">
+                    <h2>{{ service.name }}</h2>
+                    <p>{{ service.description }}</p>
+                    <button type="button" class="edit-btn" onclick="toggleEditForm({{ service.id }})"> Edit </button>
+                    <form action="{{ url_for('services.edit_service', service_id=service.id) }}" method="post" 
+                            class="edit-form" style="display: none;" data-service-id="{{ service.id }}">
+                        <span class="close-icon" onclick="closeEditForm(this)">&times;</span>
+                        <input type="text" name="name" value="{{ service.name }}">
+                        <textarea name="description">{{ service.description }}</textarea>
+                        <button type="submit"> Save </button>
+                    </form>
+                    <form action="{{ url_for('services.delete_service', service_id=service.id) }}" method="post" class="delete-form">
+                        <button type="submit" class="delete-btn"> Delete </button>
+                    </form>
+                </div>
+            {% endfor %}
+            </div>
+        </div>
     </div>
+    
 </section>
 <script>
     window.setTimeout(function() {
@@ -47,5 +68,20 @@
             $(this).remove(); 
         });
     }, 5000);
-    </script>         
+</script>  
+<script>
+    function toggleEditForm(serviceId) {
+        var editForm = document.querySelector('.edit-form[data-service-id="' + serviceId + '"]');
+        if (editForm.style.display === 'none') {
+            editForm.style.display = 'block';
+        } else {
+            editForm.style.display = 'none';
+        }
+    }
+    function closeEditForm(closeButton) {
+        var editForm = closeButton.parentElement;
+        editForm.style.display = 'none';
+    }
+    
+</script>       
 {% endblock %}

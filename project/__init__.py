@@ -36,6 +36,10 @@ def create_app():
     from .services import services as services_blueprint
     app.register_blueprint(services_blueprint)
 
+    # blueprint for reports routes in our app
+    from .reports import reports as reports_blueprint
+    app.register_blueprint(reports_blueprint)
+    
     # blueprint for non-auth parts of app
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)

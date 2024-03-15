@@ -18,9 +18,7 @@ def create_available_time_slots():
                 available_time_slots.append(time_slot)
             else:
                 continue
-    return available_time_slots
-
-       
+    return available_time_slots       
 
 @services.route('/add_service', methods=['POST'])
 @login_required
@@ -82,3 +80,33 @@ def book_individual_session(service_id):
         
     flash('Booking successful!', 'success')
     return redirect(url_for('main.clientDashboard', available_time_slots=available_time_slots ))
+
+@services.route('/delete_service/<int:service_id>', methods=['POST'])
+@login_required
+def delete_service(service_id):
+    service = Service.query.get_or_404(service_id)
+    if current_user.role != 'staff':
+        abort(403)  # Only staff members can delete services
+    subscriptions = Subscription.query.filter_by(service_id=service_id).all()
+    for subscription in subscriptions:
+        db.session.delete(subscription)
+    db.session.delete(service)
+    db.session.commit()
+    flash('Service deleted successfully!', 'success')
+    return redirect(url_for('main.staffDashboard'))
+
+@services.route('/edit_service/<int:service_id>', methods=['POST'])
+@login_required
+def edit_service(service_id):
+    service = Service.query.get_or_404(service_id)
+    if current_user.role != 'staff':
+        abort(403)  # Only staff members can edit services
+        
+    name = request.form.get('name')
+    description = request.form.get('description')
+    
+    service.name = name
+    service.description = description
+    db.session.commit()
+    flash('Service updated successfully!', 'success')
+    return redirect(url_for('main.staffDashboard'))
