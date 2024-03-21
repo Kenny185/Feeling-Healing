@@ -1,120 +1,87 @@
 from io import BytesIO
-from flask import Blueprint, Flask, send_file, make_response
-from reportlab.lib import colors
+from flask import Blueprint, Flask,  make_response, jsonify
 from reportlab.lib.pagesizes import letter
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle
-from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.pdfgen import canvas
 from .models import User, Service, Subscription, Booking
 from . import db
 
 reports = Blueprint('reports', __name__)
 
-@reports.route('/services_report')
+@reports.route('/reports/services')
 def services_report():
     services = Service.query.all()
-    buffer = BytesIO()
-    doc = SimpleDocTemplate(buffer, pagesize=letter)
-    styles = getSampleStyleSheet()
-    elements = []
+    services_data = [{'Name': service.name, 'Description': service.description} for service in services]
+    return jsonify(services_data)
+
+@reports.route('/reports/clients')
+def clients_report():
+    clients = User.query.filter_by(role='client').all()
+    clients_data = [{'Name': client.name, 'Email': client.email} for client in clients]
+    return jsonify(clients_data)
+
+@reports.route('/reports/subscribed_services')
+def subscribed_services_report():
+    subscriptions = Subscription.query.all()
+    subscribed_services_data = [{'User': subscription.user.name,
+                                 'Service': subscription.service.name} for subscription in subscriptions]
+    return jsonify(subscribed_services_data)
+
+@reports.route('/reports/booked_sessions')
+def booked_sessions_report():
+    bookings = Booking.query.all()
+    booked_sessions_data = [{'client': booking.user.name,
+                             'service': booking.service.name if booking.service else 'N/A',
+                             'time_slot': booking.time_slot} for booking in bookings]
+    return jsonify(booked_sessions_data)
+
+@reports.route('/reports/generate_pdf/<report_type>')
+def generate_pdf(report_type):
+    report_data_functions = {
+        'services': (lambda: Service.query.all(), ['Name', 'Description']),
+        'clients': (lambda: User.query.all(), ['Name', 'Email']),
+        'subscribed_services': (lambda: Subscription.query.all(), ['User', 'Service']),
+        'booked_sessions': (lambda: Booking.query.all(), ['Client', 'Service', 'Time Slot']),
+    }
+    if report_type not in report_data_functions:
+        return "Invalid report type"
     
-    elements.append(Paragraph("Services Report", styles['Title']))
-    data = [["Service Name", "Description"]]
-    for service in services:
-        data.append([service.name, service.description])
-        
-    table = Table(data)
-    elements.append(table)
-    doc.build(elements)
-    return send_file(buffer, as_attachment=True, attachment_filename='services-report.pdf')
-
-@reports.route('/clients_report')
-def download_clients_report():
-    # Fetch clients data from your database
-    clients = User.query.filter(User.role != 'staff').all()
-    # Create PDF document
+    data, headers = report_data_functions[report_type]
+    
     buffer = BytesIO()
-    doc = SimpleDocTemplate("clients_report.pdf", pagesize=letter)
-    styles = getSampleStyleSheet()
-    elements = []
-    # Add heading
-    elements.append(Paragraph("Clients Report", styles['Title']))
-    # Add clients data in a table
-    data = [["Client Name", "Email"]]
-    for client in clients:
-        data.append([client.name, client.email])
+    pdf = canvas.Canvas(buffer, pagesize=letter)
+    pdf.setFont("Helvetica-Bold", 12)
+    pdf.drawString(100, 750, f"{report_type.capitalize()} Report")
+    pdf.setFont("Helvetica", 10)
 
-    table_style = TableStyle([('BACKGROUND', (0, 0), (-1, 0), colors.grey),
-                              ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
-                              ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
-                              ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
-                              ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
-                              ('BACKGROUND', (0, 1), (-1, -1), colors.beige),
-                              ('GRID', (0, 0), (-1, -1), 1, colors.black)])
+    row_height = 720
+    for header in headers:
+        pdf.drawString(headers.index(header) * 200 + 50, row_height, header)
+    row_height -= 20
 
-    table = Table(data)
-    table.setStyle(table_style)
-    elements.append(table)
-    doc.build(elements)
+    for item in data():
+        if report_type == 'services':
+            pdf.drawString(50, row_height, item.name)
+            pdf.drawString(250, row_height, item.description)
+        elif report_type == 'clients':
+            pdf.drawString(50, row_height, item.name)
+            pdf.drawString(250, row_height, item.email)
+        elif report_type == 'subscribed_services':
+            pdf.drawString(50, row_height, item.user.name)
+            pdf.drawString(250, row_height, item.service.name)
+        elif report_type == 'booked_sessions':
+            booking = Booking.query.filter_by(id=item.id).join(Service).first()
+            if booking:
+                pdf.drawString(50, row_height, booking.user.name)
+                pdf.drawString(250, row_height, booking.service.name)
+                pdf.drawString(450, row_height, str(booking.time_slot))  # Assuming time_slot is a string
+        row_height -= 20
+
+    pdf.save()
     buffer.seek(0)
-    response = make_response(buffer.getvalue())
 
-    # Set the content type and attachment filename
+    response = make_response(buffer.getvalue())
     response.headers['Content-Type'] = 'application/pdf'
-    response.headers['Content-Disposition'] = 'attachment; filename=clients_report.pdf'
+    response.headers['Content-Disposition'] = f'attachment; filename={report_type}_report.pdf'
 
     return response
-# Function to generate PDF report for services linked to specific client
-# def generate_services_linked_to_client_report(client_id):
-#     # Fetch client's data and associated services from your database
-#     client = Client.query.get(client_id)
-#     services = client.services  # Assuming there's a relationship between Client and Service models
 
-    # Create PDF document
-    # Add client's information and associated services to the PDF document
-    # Customize layout, styling, and save the PDF file
-
-# Function to generate PDF report for sessions booked for different services
-def generate_sessions_report():
-    # Fetch booked sessions data with service details from your database
-    sessions = Booking.query.join(Service).all()
-
-    # Create PDF document
-    # Add session details along with service information to the PDF document
-    # Customize layout, styling, and save the PDF file
-
-# Routes to download the generated PDF files
-# @reports.route('/download_clients_report')
-# def download_clients_report():
-#     generate_clients_report()
-#     return send_file("clients_report.pdf", as_attachment=True)
-
-# @reports.route('/download_services_linked_to_client_report/<int:client_id>')
-# def download_services_linked_to_client_report(client_id):
-#     generate_services_linked_to_client_report(client_id)
-#     return send_file("services_linked_to_client_report.pdf", as_attachment=True)
-
-@reports.route('/download_sessions_report')
-def download_sessions_report():
-    generate_sessions_report()
-    return send_file("sessions_report.pdf", as_attachment=True)
-
-
-#  <div>
-#             <form action="{{ url_for('reports.download_services_linked_to_client_report', client_id=client_id) }}" method="get">
-#                 <button type="submit"> Download Services Linked to Client Report </button>
-#             </form>
-#         </div>
-#         <div>
-#             <a href="{{ url_for('reports.download_sessions_report') }}" download>
-#                 <button> Download Sessions Report </button>
-#             </a>
-#         </div>
-# <div class="reports">
-#         <h1>Download Reports</h1>
-#         <div>
-#             <a href="{{ url_for('reports.download_clients_report') }}" download>
-#             <button>Download Clients Report</button>
-#             </a>
-#         </div>
-       
-#     </div>

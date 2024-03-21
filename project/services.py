@@ -55,20 +55,16 @@ def subscribe_to_service(service_id):
 @services.route('/book_individual_session/<int:service_id>', methods=['POST'])
 @login_required
 def book_individual_session(service_id):
-    available_time_slots = AvailableTimeSlot.query.filter_by(service_id=service_id).all()
     utc = pytz.utc
     
-     # timezone_offset = int(request.form['timezone_offset'])
-    chosen_time_str = request.form['time_slot']
-    chosen_time = datetime.strptime(chosen_time_str, '%Y-%m-%d %H:%M:%S')
+    # timezone_offset = int(request.form['timezone_offset'])
     # chosen_time += timedelta(minutes=timezone_offset)
     # utc_time = chosen_time.astimezone(utc)
-    if chosen_time not in [slot.time_slot for slot in available_time_slots]:
-        flash('Selected time slot is not available.', 'danger')
-        return redirect(url_for('main.clientDashboard'))
+    chosen_time_str = request.form['time_slot']
+    chosen_time = datetime.strptime(chosen_time_str, '%Y-%m-%d %H:%M:%S')
     
-    conflicting_bookings = Booking.query.filter_by(service_id=service_id, time_slot=chosen_time).first()
-    if conflicting_bookings:
+    conflicting_booking = Booking.query.filter_by(service_id=service_id, time_slot=chosen_time).first()
+    if conflicting_booking:
         flash('That slot is already booked!', 'danger')
         return redirect(url_for('main.clientDashboard'))
     
@@ -76,9 +72,9 @@ def book_individual_session(service_id):
     db.session.add(new_booking)
     db.session.commit()
     
+    available_time_slots = AvailableTimeSlot.query.filter_by(service_id=service_id).all()
     available_time_slots = [slot for slot in available_time_slots if slot.time_slot != chosen_time]
-        
-    flash('Booking successful!', 'success')
+    flash('The Booking is successful!', 'success')
     return redirect(url_for('main.clientDashboard', available_time_slots=available_time_slots ))
 
 @services.route('/delete_service/<int:service_id>', methods=['POST'])

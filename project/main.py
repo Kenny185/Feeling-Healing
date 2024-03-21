@@ -1,6 +1,5 @@
 from flask import Blueprint, render_template, abort
 from flask_login import login_required, current_user
-
 from project.services import create_available_time_slots 
 from . import db
 from .models import Service, User, Subscription

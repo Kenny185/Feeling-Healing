@@ -4,38 +4,67 @@
     {{super()}}
   <title> Staff Dashboard </title>
   <link rel="stylesheet" href="/static/css/dashboard/staff.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>    
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+    
 {% endblock %}
 {% block content %}
 <section class="main-section">
     <div class="welcome-banner">
         <h2> Welcome back, {{ current_user.name }}!</h2>
         <p>This is a secure area for staff. 
-        </br> Here you can manage client information, services, and more.</p>
+        </br> Here you can view client information, services, and more.</p>
     </div>
     <div class="container">
         <div class="add-services">
-            <form action="{{ url_for('services.add_service') }}" method="post">
-                {% with messages = get_flashed_messages(with_categories=true) %}
-                    {% if messages %}
-                        {% for category, message in messages %}
-                            <div class="alert alert-{{ category }}">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
-                <h1 class="service-h"> Services </h1>
-                <div class="input-control">
-                    <input type="text" name="name" placeholder="Service Name" required>
-                </div>            
-                <div class="input-control">
-                    <textarea name="description" placeholder="Service Description" required></textarea>
+            <div class="services">
+                <form action="{{ url_for('services.add_service') }}" method="post">
+                    {% with messages = get_flashed_messages(with_categories=true) %}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert alert-{{ category }}">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <h1 class="service-h"> Services </h1>
+                    <div class="input-control">
+                        <input type="text" name="name" placeholder="Service Name" required>
+                    </div>            
+                    <div class="input-control">
+                        <textarea name="description" placeholder="Service Description" required></textarea>
+                    </div>
+                    <div class="add-btn">
+                        <button type="submit"> Add Service</button>
+                    </div>
+                </form>
+            </div>
+            <div class="reports">
+                <h1> Reports </h1>
+                <div class="reports-section">
+                    <button class="report-btn" onclick="generateReport('{{ url_for('reports.services_report') }}', 'services')">
+                        Services Report
+                    </button>
                 </div>
-                <div class="add-btn">
-                    <button type="submit"> Add Service</button>
+                <div class="reports-section">
+                    <button class="report-btn" onclick="generateReport('{{ url_for('reports.clients_report') }}', 'clients')">
+                        Clients Report
+                    </button>
                 </div>
-            </form>
+                <div class="reports-section">
+                    <button class="report-btn" onclick="generateReport('{{ url_for('reports.subscribed_services_report') }}', 'subscribed_services')">
+                        Subscribed Services Report
+                    </button>
+                </div> 
+                <div class="reports-section">
+                    <button class="report-btn" onclick="generateReport('{{ url_for('reports.booked_sessions_report') }}', 'booked_sessions')">
+                        Booked Sessions Report
+                    </button>
+                </div>                 
+            </div>
+                        
         </div>
         <div class="manage-section">
             <h1 class="manage-h"> Manage Services </h1>
@@ -68,8 +97,6 @@
             $(this).remove(); 
         });
     }, 5000);
-</script>  
-<script>
     function toggleEditForm(serviceId) {
         var editForm = document.querySelector('.edit-form[data-service-id="' + serviceId + '"]');
         if (editForm.style.display === 'none') {
@@ -82,6 +109,71 @@
         var editForm = closeButton.parentElement;
         editForm.style.display = 'none';
     }
+    function generateReport(reportUrl, reportType) {
+        // Open a new tab
+        var reportWindow = window.open('', '_blank');
+        // Make an AJAX request to fetch the report data
+        fetch(reportUrl)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data); // Log the data received from the server
     
-</script>       
+                // Dynamically create an HTML table with the report data
+                var table = '<table class="report-table">';
+                table += '<tr>';
+                // Define headers based on report type
+                var headers = [];
+                if (reportType === 'services') {
+                    headers = ['Name', 'Description'];
+                } else if (reportType === 'clients') {
+                    headers = ['Name', 'Email'];
+                } else if (reportType === 'subscribed_services') {
+                    headers = ['User', 'Service'];
+                } else if (reportType === 'booked_sessions') {
+                    headers = ['Client', 'Service', 'Time Slot'];
+                }
+    
+                headers.forEach(header => {
+                    table += `<th class="table-header">${header}</th>`;
+                });
+    
+                table += '</tr>';
+                // Populate table rows with data
+                data.forEach((item, index) => {
+                    table += `<tr class="${index % 2 === 0 ? 'even' : 'odd'}">`; // Apply even/odd class for alternate row colors
+                    // Ensure the data is placed in the correct columns
+                    if (reportType === 'booked_sessions') {
+                        table += `<td class="table-data">${item['client']}</td>`; 
+                        table += `<td class="table-data">${item['service']}</td>`;
+                        // Format the time slot before displaying
+                        var timeSlot = new Date(item['time_slot']);
+                        var formattedTimeSlot = timeSlot.toLocaleString('en-GB', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit', year: '2-digit' });
+                        table += `<td class="table-data">${formattedTimeSlot}</td>`; 
+                    } else {
+                        headers.forEach(header => {
+                            table += `<td class="table-data">${item[header]}</td>`;
+                        });
+                    }
+                    table += '</tr>';
+                });
+                table += '</table>';
+                // Create a container for the table and download button
+                var container = document.createElement('div');
+                container.classList.add('report-container'); // Add a class for additional styling if needed
+                // Set the HTML content of the new tab to display the table
+                container.innerHTML = `
+                <link rel="stylesheet" href="/static/css/dashboard/staff.css"> 
+                ${table}
+                <button class="download-button" onclick="downloadPDF(reportType)"> Download </button>
+                `;
+                // Append the container to the body of the new tab
+                reportWindow.document.body.appendChild(container);
+            })
+            .catch(error => console.error('Error fetching report:', error));
+    }
+   function downloadPDF(reportType) {
+        // Make a request to download the PDF report
+        window.open(`/reports/generate_pdf/${reportType}`, '_blank');
+    }    
+</script>         
 {% endblock %}

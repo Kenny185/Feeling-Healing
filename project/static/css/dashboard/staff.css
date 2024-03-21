@@ -4,29 +4,64 @@
                                 #7a7273 0%,
                                 #739dbd 100%,
                                 rgb(231, 188, 195) 100%);
-}.welcome-banner {
+  display: flex;
+  flex-direction: column;
+}
+.welcome-banner {
   border-radius: 5px; 
   padding: 20px; 
   margin: 10px 0; 
-  text-align: center; 
+  text-align: center;
+  max-width: 1200px; 
  
 }
 .container {
   display: flex;
+  position: relative;
   margin: 0 auto;
   padding: 20px;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border: 2px solid black;
 
 
 }
 .add-services {
   padding: 25px;
-  margin-right: 90px;
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid yellow;
 }
-.add-services form{
+.reports {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  border: 2px solid red ;
+}
+.reports-section {
+  justify-content: center;
+  margin: 15px;
+  
+}
+.reports-section button{
+  padding: 10px;
+  font-size: 14px;
+  font-weight: bold;
+  border: none;
+  border-radius: 70px;
+  cursor: pointer;
+
+}
+.reports-section button:hover{
+  font-weight: 600;
+  background-color: rgb(41, 57, 194);
+}
+.services form{
   background-color: aliceblue;
   width: 350px;
-  margin: 8vh auto 0 auto;
+  margin: 4vh auto 0 auto;
   padding: 20px;
   border-radius: 30px;
   font-size: 17px;
@@ -73,10 +108,11 @@
   display: grid;
   grid-template-columns: auto auto;
   gap: 15px;
-  padding: 15px; 
+  padding: 15px;
 }
 .manage-section {
   width: 100%;
+  border: 2px solid firebrick; 
 }
 .manage-h{
   text-align: center;
@@ -205,4 +241,43 @@
   color: #a94442;
   background-color: #f2dede;
   border-color: #ebccd1;
+}
+.report-container {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  position: relative;
+  margin: 0 auto;
+  padding: 20px;
+  border: 2px solid blue;
+  max-width: 1200px;
+  
+}
+.report-table {
+  border-collapse: collapse;
+  width:  100%;
+  margin: 0 auto;  
+
+}
+.table-header {
+  background-color: #f2f2f2; 
+  padding: 8px; 
+  text-align: left;
+}
+.table-data{
+  padding: 8px;
+}
+.download-button {
+  display: flex;
+  width: 100px;
+  justify-content: center;
+  align-items: center;
+  right: 10px;
+  bottom: 10px;
+  position: absolute;
+  /* padding: 8px; */
+  height: 25px;
+  text-align: center; /* Center-align the text */
+  line-height: 20px; /* Vertically center-align the text */
+  margin-top: 10px; /* Add space above the button */
 }

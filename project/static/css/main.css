@@ -29,12 +29,33 @@ body{
     left:0;
     top: 0;
 }
-.logo h1{
-  font-size: 30px;
-  text-decoration: double;
-  color: rgb(20, 3, 53);
-  font-style: italic;
+.nav-part1 {
+  display: flex;
+  align-items: center;
+
 }
+.logo {
+  width: 100%;
+  justify-content: space-between;
+  padding: 3px;
+  display: flex;
+  align-items: center;
+
+
+}
+.logo img{
+  width: 60px;
+  border-radius: 100%;
+  overflow: hidden;
+  opacity: 0.8;
+
+}
+.logo-text {
+  margin-left: 3px;
+  text-align: center;
+  line-height: 0.8;
+}
+
 #nav-bar{
     display: flex;
     align-items: center;
@@ -141,6 +162,7 @@ body{
       font-size: 1rem;
       
   }
+
   .logo:hover{
       height: 10px;
   }

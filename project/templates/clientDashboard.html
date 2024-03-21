@@ -28,7 +28,7 @@
         <p>Here's what's happening with your account today.</p>
     </div>
     <div class="services-div">
-        <h2>My Services</h2>
+        <h2>My Subscribed Services</h2>
         <div class="services">
             {% if services %}
             {% with messages = get_flashed_messages(with_categories=true) %}
@@ -56,7 +56,7 @@
                                 <div class="dropdown-container">
                                     <form action="{{ url_for('services.book_individual_session', service_id=service.id) }}" method="POST">
                                         <div class="time-slot">
-                                            <label for="time_slot"> Choose a time slot: </label>
+                                            <label for="time_slot"> Choose a time for session: </label>
                                             <select name="time_slot" id="time_slot">                                             
                                              <!-- Populate with available time slots -->
                                                 {% for slot in available_time_slots %}
