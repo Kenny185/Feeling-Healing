@@ -25,7 +25,6 @@ body{
     box-shadow: 0 10px 15px  rgba(0, 0, 0, 0.844);
     background-color:beige ;
     z-index: 10;
-    position: sticky;
     left:0;
     top: 0;
 }
@@ -40,8 +39,6 @@ body{
   padding: 3px;
   display: flex;
   align-items: center;
-
-
 }
 .logo img{
   width: 60px;

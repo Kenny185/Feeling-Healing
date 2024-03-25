@@ -4,11 +4,13 @@
   margin: 0;
   padding: 0;
   font-family: "Poppins", sans-serif;
+  list-style: none;
 }
 body{
     min-height: 100%;
     width: 100%;
     font-family: sans-serif;
+    background-color: rgb(219, 219, 219);
 }
 * a{
   text-decoration: none;
@@ -40,7 +42,6 @@ body{
   display: flex;
   align-items: center;
 
-
 }
 .logo img{
   width: 60px;
@@ -51,6 +52,7 @@ body{
 }
 .logo-text {
   margin-left: 3px;
+  text-decoration: double;
 }
 
 #nav-bar{
@@ -106,17 +108,12 @@ body{
 * a{
     text-decoration: none;
 }
-
-.container{
-    display: flex;
-}
 .sign-btn{
     display: flex;
     justify-content: space-between;
     padding: 15px;
 }
 .sign-btn button{
-   
     padding: 8px;
     font-size: 14px;
     font-weight: bold;
@@ -125,6 +122,25 @@ body{
     border: none;
     border-radius: 70px;
     cursor: pointer;
+}
+.container{
+    display: flex;
+}
+.description{
+    flex-basis: 45%;
+    padding: 25px;
+    margin-right: 90px;
+    border: 2px solid red;
+}
+.description h2{
+    font-size: 55px;
+    margin-bottom: 20px;
+    font-family: 'Barlow', sans-serif;
+    
+}
+.description p{
+    font-family: 'Barlow', sans-serif;
+    font-size: 25px;
 }
 form{
     background-color: #fff;
@@ -160,20 +176,6 @@ form h1{
     margin-right: 15px;
     font-size: 14px;
     cursor: pointer;
-}
-.description{
-    flex-basis: 45%;
-    padding: 25px;
-    margin-right: 90px;
-}
-.description h2{
-    font-size: 55px;
-    margin-bottom: 20px;
-    font-family: 'Barlow', sans-serif;
-}
-.description p{
-    font-family: 'Barlow', sans-serif;
-    font-size: 25px;
 }
 .input-control input{
     padding: 22px 15px 10px 0;

@@ -256,17 +256,26 @@
 .report-table {
   border-collapse: collapse;
   width:  100%;
-  margin: 0 auto;  
+  margin: 0 auto;
+  border: 1px solid;  
 
 }
+
 .table-header {
   background-color: #f2f2f2; 
-  padding: 8px; 
-  text-align: left;
+  padding: 15px; 
+  text-align: center;
+  height: 40px;
 }
 .table-data{
-  padding: 8px;
+  padding: 15px;
 }
+.table-row:hover {
+  background-color: #928a8a;
+}
+/* .table-row:nth-child(even) {
+  background-color: #c9c6c6;
+} */
 .download-button {
   display: flex;
   width: 100px;
@@ -275,9 +284,9 @@
   right: 10px;
   bottom: 10px;
   position: absolute;
-  /* padding: 8px; */
   height: 25px;
-  text-align: center; /* Center-align the text */
-  line-height: 20px; /* Vertically center-align the text */
-  margin-top: 10px; /* Add space above the button */
+  text-align: center;
+  line-height: 20px; 
+  margin-top: 30px;
+  cursor: pointer;
 }

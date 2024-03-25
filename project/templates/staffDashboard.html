@@ -140,7 +140,7 @@
                 table += '</tr>';
                 // Populate table rows with data
                 data.forEach((item, index) => {
-                    table += `<tr class="${index % 2 === 0 ? 'even' : 'odd'}">`; // Apply even/odd class for alternate row colors
+                    table += `<tr class="table-row">`;
                     // Ensure the data is placed in the correct columns
                     if (reportType === 'booked_sessions') {
                         table += `<td class="table-data">${item['client']}</td>`; 
@@ -164,8 +164,15 @@
                 container.innerHTML = `
                 <link rel="stylesheet" href="/static/css/dashboard/staff.css"> 
                 ${table}
-                <button class="download-button" onclick="downloadPDF(reportType)"> Download </button>
                 `;
+                // Add a button to download the report as PDF
+                var downloadButton = document.createElement('button');
+                downloadButton.textContent = 'Download';
+                downloadButton.classList.add('download-button')
+                downloadButton.onclick = function() {
+                    downloadPDF(reportType);
+                };
+                container.appendChild(downloadButton);
                 // Append the container to the body of the new tab
                 reportWindow.document.body.appendChild(container);
             })
