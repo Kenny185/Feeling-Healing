@@ -38,7 +38,7 @@ def booked_sessions_report():
 def generate_pdf(report_type):
     report_data_functions = {
         'services': (lambda: Service.query.all(), ['Name', 'Description']),
-        'clients': (lambda: User.query.all(), ['Name', 'Email']),
+        'clients': (lambda: User.query.filter_by(role='client').all(), ['Name', 'Email']),
         'subscribed_services': (lambda: Subscription.query.all(), ['User', 'Service']),
         'booked_sessions': (lambda: Booking.query.all(), ['Client', 'Service', 'Time Slot']),
     }
@@ -49,10 +49,15 @@ def generate_pdf(report_type):
     
     buffer = BytesIO()
     pdf = canvas.Canvas(buffer, pagesize=letter)
-    pdf.setFont("Helvetica-Bold", 12)
-    pdf.drawString(100, 750, f"{report_type.capitalize()} Report")
-    pdf.setFont("Helvetica", 10)
-
+    def header(canvas, report_type):
+        canvas.saveState()
+        canvas.drawImage('/static/images/logo.jpeg', 50, 750, width=100, height=50)
+        canvas.setFont("Helvetica-Bold", 12)
+        canvas.drawString(100, 750, f"{report_type.capitalize()} Report")
+        canvas.restoreState()
+        
+    pdf._header = lambda canvas, report_type: header(canvas, report_type)
+    
     row_height = 720
     for header in headers:
         pdf.drawString(headers.index(header) * 200 + 50, row_height, header)
