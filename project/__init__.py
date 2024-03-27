@@ -14,7 +14,6 @@ def create_app():
 
     app.config['SECRET_KEY'] = secrets.token_hex(16)
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
-    
     app.config['SESSION_TYPE'] = 'filesystem'
     app.config['SESSION_FILE_DIR'] = '/tmp/flask_session'
     app.config['SESSION_PERMANENT'] = True 
@@ -27,7 +26,6 @@ def create_app():
     
     Session(app)
     
-    from project import models
     from .models import User
     
     
@@ -36,19 +34,19 @@ def create_app():
         # since the user_id is just the primary key of our user table, use it in the query for the user
         return User.query.get(int(user_id))
 
-    # blueprint for auth routes in our app
+    # blueprint for auth routes
     from .auth import auth as auth_blueprint
     app.register_blueprint(auth_blueprint)
 
-    # blueprint for services routes in our app
+    # blueprint for services routes 
     from .services import services as services_blueprint
     app.register_blueprint(services_blueprint)
 
-    # blueprint for reports routes in our app
+    # blueprint for reports routes
     from .reports import reports as reports_blueprint
     app.register_blueprint(reports_blueprint)
     
-    # blueprint for non-auth parts of app
+    # blueprint for non-auth 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
 

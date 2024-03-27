@@ -23,22 +23,17 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  border: 2px solid black;
-
-
 }
 .add-services {
   padding: 25px;
   width: 100%;
   display: flex;
   flex-direction: column;
-  border: 2px solid yellow;
 }
 .reports {
   display: flex;
   flex-direction: column;
-  margin-top: 20px;
-  border: 2px solid red ;
+  margin-top: 20px;;
 }
 .reports-section {
   justify-content: center;
@@ -112,7 +107,6 @@
 }
 .manage-section {
   width: 100%;
-  border: 2px solid firebrick; 
 }
 .manage-h{
   text-align: center;
@@ -249,18 +243,48 @@
   position: relative;
   margin: 0 auto;
   padding: 20px;
-  border: 2px solid blue;
   max-width: 1200px;
   
+}
+.report-header {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-between;
+  padding: 3px;
+}
+.report-logo {
+  display: flex;
+  flex-direction: row;
+  left: 0px;
+}
+.report-logo img{
+  width: 60px;
+  border-radius: 100%;
+  overflow: hidden;
+  opacity: 0.8;
+
+}
+.report-logo h2{
+  margin-left: 3px;
+  text-align: center;
+  line-height: 0.8;
+}
+.report-heading{
+  text-align: center;
+}
+.report-heading h1{
+  font-size: 30px;
+  text-transform: capitalize;
+
 }
 .report-table {
   border-collapse: collapse;
   width:  100%;
   margin: 0 auto;
-  border: 1px solid;  
+  border: 1px solid;
 
 }
-
 .table-header {
   background-color: #f2f2f2; 
   padding: 15px; 

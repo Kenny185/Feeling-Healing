@@ -136,7 +136,6 @@
                 headers.forEach(header => {
                     table += `<th class="table-header">${header}</th>`;
                 });
-    
                 table += '</tr>';
                 // Populate table rows with data
                 data.forEach((item, index) => {
@@ -162,6 +161,15 @@
                 container.classList.add('report-container'); // Add a class for additional styling if needed
                 // Set the HTML content of the new tab to display the table
                 container.innerHTML = `
+                <div class="report-header">
+                    <div class="report-logo">
+                        <img src="/static/images/logo.jpeg" alt="Company Logo">
+                        <h2> Feeling & Healing </h2>
+                    </div>
+                    <div class="report-heading">
+                        <h1>${reportType} Report</h1>
+                    </div>
+                </div>
                 <link rel="stylesheet" href="/static/css/dashboard/staff.css"> 
                 ${table}
                 `;
