@@ -1,9 +1,13 @@
 from io import BytesIO
 from flask import Blueprint, Flask,  make_response, jsonify
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Image
+from reportlab.lib.styles import getSampleStyleSheet
+from reportlab.lib import colors
 from reportlab.lib.pagesizes import letter
 from reportlab.pdfgen import canvas
 from .models import User, Service, Subscription, Booking
 from . import db
+from reportlab.platypus.tables import Table
 
 reports = Blueprint('reports', __name__)
 
@@ -48,40 +52,64 @@ def generate_pdf(report_type):
     data, headers = report_data_functions[report_type]
     
     buffer = BytesIO()
-    pdf = canvas.Canvas(buffer, pagesize=letter)
-    def header(canvas, report_type):
-        canvas.saveState()
-        canvas.drawImage('/static/images/logo.jpeg', 50, 750, width=100, height=50)
-        canvas.setFont("Helvetica-Bold", 12)
-        canvas.drawString(100, 750, f"{report_type.capitalize()} Report")
-        canvas.restoreState()
-        
-    pdf._header = lambda canvas, report_type: header(canvas, report_type)
+    pdf = SimpleDocTemplate(buffer, pagesize=letter)
+    elements = []
     
-    row_height = 720
-    for header in headers:
-        pdf.drawString(headers.index(header) * 200 + 50, row_height, header)
-    row_height -= 20
+    # Add logo image
+    logo_path = 'project/static/images/logo.jpeg'
+    logo = Image(logo_path, width=100, height=50)
+    elements.append(logo)
+    elements.append(Spacer(1, 20)) 
+    
+    # Add report title
+    title_style = getSampleStyleSheet()["Title"]
+    title_text = f"{report_type.capitalize()} Report"
+    elements.append(Paragraph(title_text, title_style))
+    elements.append(Spacer(1, 20))
+    
+    table_heading_style = [('BACKGROUND', (0, 0), (-1, 0), colors.gray),
+                           ('TEXTCOLOR', (0, 0), (-1, 0), colors.white),
+                           ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                           ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+                           ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+                           ('LEFTPADDING', (0, 0), (-1, -1), 10),
+                           ('RIGHTPADDING', (0, 0), (-1, -1), 10), 
+                           ('TOPPADDING', (0, 0), (-1, -1), 10), 
+                           ('BOTTOMPADDING', (0, 0), (-1, -1), 10)]
 
+    # Create style for table rows
+    table_row_style = [('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+                       ('BOX', (0, 0), (-1, -1), 0.25, colors.black),
+                       ('LEFTPADDING', (0, 0), (-1, -1), 10),
+                       ('RIGHTPADDING', (0, 0), (-1, -1), 10),
+                       ('TOPPADDING', (0, 0), (-1, -1), 10), 
+                       ('BOTTOMPADDING', (0, 0), (-1, -1), 10)]
+    data_rows = []
     for item in data():
+        row = []
         if report_type == 'services':
-            pdf.drawString(50, row_height, item.name)
-            pdf.drawString(250, row_height, item.description)
+            row.append(Paragraph(item.name))
+            row.append(Paragraph(item.description))
         elif report_type == 'clients':
-            pdf.drawString(50, row_height, item.name)
-            pdf.drawString(250, row_height, item.email)
+            row.append(Paragraph(item.name))
+            row.append(Paragraph(item.email))
         elif report_type == 'subscribed_services':
-            pdf.drawString(50, row_height, item.user.name)
-            pdf.drawString(250, row_height, item.service.name)
+            row.append(Paragraph(item.user.name))
+            row.append(Paragraph(item.service.name))
         elif report_type == 'booked_sessions':
             booking = Booking.query.filter_by(id=item.id).join(Service).first()
             if booking:
-                pdf.drawString(50, row_height, booking.user.name)
-                pdf.drawString(250, row_height, booking.service.name)
-                pdf.drawString(450, row_height, str(booking.time_slot))  # Assuming time_slot is a string
-        row_height -= 20
-
-    pdf.save()
+                row.append((booking.user.name))
+                row.append(Paragraph(booking.service.name))
+                row.append(Paragraph((booking.time_slot)))
+        data_rows.append(row)
+    
+    # Create table
+    table_style = [('GRID', (0, 0), (-1, -1), 1, 'BLACK')]
+    table = Table([headers] + data_rows, style=table_heading_style + table_row_style, hAlign='CENTRE')
+    elements.append(table)
+    
+    pdf.build(elements)
     buffer.seek(0)
 
     response = make_response(buffer.getvalue())
@@ -89,4 +117,3 @@ def generate_pdf(report_type):
     response.headers['Content-Disposition'] = f'attachment; filename={report_type}_report.pdf'
 
     return response
-

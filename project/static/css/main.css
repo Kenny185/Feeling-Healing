@@ -21,10 +21,11 @@ body{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 60px;
+    padding: 8px 60px;
     box-shadow: 0 10px 15px  rgba(0, 0, 0, 0.844);
     background-color:beige ;
     z-index: 10;
+    position: sticky;
     left:0;
     top: 0;
 }
@@ -234,15 +235,22 @@ hr{
   color: forestgreen;
   font-family: 'Poppins';
 }
-
-footer{
-  background-color: rgb(145, 186, 236);
-}
-.text-footer {
-  flex: bottom;
-  text-align: center;
-  padding: 10px 0;
-  font-family: 'Ubuntu', sans-serif;
-  display: flex;
-  justify-content: center;
+.alert {
+    padding: 10px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    position: absolute;
+    z-index: 10;
+    top: 100px;
+    right: 18px;
+  }
+  .alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+  }
+  .alert-danger {
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
   }

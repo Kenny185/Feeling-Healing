@@ -20,7 +20,7 @@
                     <img src="/static/images/logo.jpeg" alt="Feelinng & Healing Logo">
                 </div>
                 <div class="logo-text">
-                    <h1> FEELING & HEALING </h1>
+                    <h1> Feeling & Healing </h1>
 
                 </div>
             </a>
@@ -64,6 +64,15 @@
             </ul>
         </div>
     </section>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     <div class="content">
         {% block content %} {% endblock %}
     </div>
